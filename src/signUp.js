@@ -1,90 +1,87 @@
-
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import './signup.css'
-// import { createUserWithEmailAndPassword, validatePassword } from "firebase/auth";
-// import { auth } from "./firebase/firebase";
 import NevBar from "./Navbar";
 
-function Signup(){
+function Signup() {
+    const initialFormValues = {
+        name: "",
+        email: "",
+        Mobile: "",
+        pass: ""
+    };
 
-    const [vlaues , setValues] = useState({
-        name : "",
-        email : "",
-        Mobile : "",
-        pass : ""
-    })
+    const [values, setValues] = useState(initialFormValues);
+    const [errmsg, setErrMsg] = useState('');
 
-    const [errmsg , seterrMsg] = useState('')
-    // const [submitdes , setSubmitDes] = useState(false)
+    function handleButton(event) {
+        event.preventDefault(); 
+        
+        console.log(values);
+        if( !values.name || !values.email ||  !values.pass ||  !values.Mobile){
+            setErrMsg('Fill all fields');
+            setTimeout(() => {
+                setErrMsg('');
+            }, 5000);
+            
+            return ;
+        }
+        setErrMsg('');
 
-    // function handleButton(){
-    //     console.log(vlaues)
-    //     if( !vlaues.name || !vlaues.email ||  !vlaues.pass ||  !vlaues.Mobile){
-    //         seterrMsg('Fill all fields');
-    //         return ;
-    //     }
-    //     seterrMsg('');
+        setValues(initialFormValues);
+    }
 
-    //     setSubmitDes(true);
-
-    //     createUserWithEmailAndPassword(auth , vlaues.email , vlaues.pass)
-    //         .then((res) => {
-    //             setSubmitDes(false)
-    //             // console.log(res);
-    //             const user = res.user;
-    //             console.log(user)
-
-    //         })
-    //         .catch((err) => 
-    //             {setSubmitDes(false)
-    //                 seterrMsg(err.massage)
-    //             console.log("error" , err.massage)});
-    // }
-    
-   
-    
-    
     return (
         <div>
-        <NevBar />
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-       
-        <div className='signup-container' >
-            <form className='signup-form'>
-            <p>Create Account</p>
+            <NevBar />
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div className='signup-container' >
+                    <form className='signup-form'>
+                        <p>Create Account</p>
 
-            <label>Your Name</label>
-            <input onChange={(e)=>setValues((prev) => ({...prev , name : e.target.value}))} 
-            type='text' placeholder='enter your name'/>
+                        <label>Your Name</label>
+                        <input
+                            onChange={(e) => setValues((prev) => ({ ...prev, name: e.target.value }))}
+                            type='text'
+                            placeholder='enter your name'
+                            value={values.name} // Set the value attribute
+                        />
 
-            <label>Mobile Number</label>
-            <input onChange={(e)=>setValues((prev) => ({...prev , Mobile : e.target.value}))} 
-            type='tel' placeholder='mobile number'/>
+                        <label>Mobile Number</label>
+                        <input
+                            onChange={(e) => setValues((prev) => ({ ...prev, Mobile: e.target.value }))}
+                            type='tel'
+                            placeholder='mobile number'
+                            value={values.Mobile} // Set the value attribute
+                        />
 
-            <label>Email</label>
-            <input onChange={(e)=>setValues((prev) => ({...prev , email : e.target.value}))} 
-            type='email' placeholder='enter your email'/>
+                        <label>Email</label>
+                        <input
+                            onChange={(e) => setValues((prev) => ({ ...prev, email: e.target.value }))}
+                            type='email'
+                            placeholder='enter your email'
+                            value={values.email} // Set the value attribute
+                        />
 
-            <label>Password</label>
-            <input onChange={(e)=>setValues((prev) => ({...prev , pass : e.target.value}))} 
-            type='password' placeholder='enter your password'/>
+                        <label>Password</label>
+                        <input
+                            onChange={(e) => setValues((prev) => ({ ...prev, pass: e.target.value }))}
+                            type='password'
+                            placeholder='enter your password'
+                            value={values.pass} // Set the value attribute
+                        />
 
-            <button type='submit' >Sign up</button>
-            <p className="msg">{errmsg}</p>
+                        <button type='submit' onClick={handleButton}>Sign up</button>
+                        <p className="msg">{errmsg}</p>
 
-            <div>
-              <span>Alrady have an account?</span>
-              <Link to='/login'>Sign In</Link>
+                        <div>
+                            <span>Already have an account?</span>
+                            <Link to='/login'>Sign In</Link>
+                        </div>
+                    </form>
+                </div>
             </div>
-            </form>
-            
-
-            
-        </div></div></div>
-
-     
+        </div>
     )
 }
 
