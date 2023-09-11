@@ -6,7 +6,7 @@ import NevBar from './Navbar'
 const Home = (props) => {
   return (
     <div>
-      <NevBar/>
+      <NevBar />
       <div className='container' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
        <h1>{ props.name ? `welcome - ${props.name}` : " Login Please" }</h1>
       </div>
