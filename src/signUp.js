@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link , useNavigate } from "react-router-dom";
 import './signup.css'
 import NevBar from "./Navbar";
+import {createUserWithEmailAndPassword , updateProfile} from 'firebase/auth'
+import { auth } from './firebaseconfig/firebase'
 
 function Signup() {
     const initialFormValues = {
@@ -10,6 +12,8 @@ function Signup() {
         Mobile: "",
         pass: ""
     };
+
+    const navigate = useNavigate()
 
     const [values, setValues] = useState(initialFormValues);
     const [errmsg, setErrMsg] = useState('');
@@ -27,6 +31,20 @@ function Signup() {
             return ;
         }
         setErrMsg('');
+
+        createUserWithEmailAndPassword(auth , values.email , values.pass)
+            .then(async(res) => {
+                const user = res.user;
+                await updateProfile(user , {
+                    displayName: values.name,
+                })
+                navigate('/')
+                console.log(user)
+            })
+            .catch((err) => {
+                setErrMsg(err.message)
+                console.log(err)
+            })
 
         setValues(initialFormValues);
     }
